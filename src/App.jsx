@@ -3,26 +3,44 @@ import { useEffect, useState } from "react";
 import "./App.css";
 function App() {
   const [data, setData] = useState(null);
+  const [loadings, setLoadings] = useState(false);
   async function getFetch() {
-    const res = await fetch("https://rickandmortyapi.com/api/character");
-    console.log("cargo");
-    const data = await res.json();
-    console.log(data.results);
-    setData(data.results);
+    try {
+      const res = await fetch("https://rickandmortyapi.com/api/character");
+      console.log("cargo");
+      const data = await res.json();
+      console.log(data.results);
+      setLoadings(true);
+      setData(data.results);
+    } catch (error) {
+      console.error(error);
+    }
   }
   useEffect(() => {
     getFetch();
   }, []);
+
+  if (!loadings) {
+    return (
+      <div className="loadings">
+        <h3>Loadings....</h3>
+      </div>
+    );
+  }
 
   return (
     <Layout>
       <section className="grid-container">
         {data?.map((el) => {
           return (
-            <article key={el.id} className="item">
-              <h3>{el.name}</h3>
-              <img src={el.image} />
-            </article>
+            <>
+              {loadings && (
+                <article key={el.id} className="item">
+                  <h3>{el.name}</h3>
+                  <img src={el.image} />
+                </article>
+              )}
+            </>
           );
         })}
       </section>

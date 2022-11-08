@@ -1,6 +1,6 @@
 import React from "react";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, footer = false }) => {
   return (
     <section className="container">
       <header>

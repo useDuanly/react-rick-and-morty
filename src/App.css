@@ -74,3 +74,9 @@
   gap: 1rem;
   justify-content: center;
 }
+.loadings > h3 {
+  padding: 1rem;
+  margin: 1rem;
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+}
