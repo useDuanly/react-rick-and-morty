@@ -47,7 +47,7 @@
 
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
 
   gap: 1rem;
 }
@@ -62,7 +62,7 @@
   background-color: antiquewhite;
 }
 .item > img {
-  width: 180px;
+  width: 80%;
   height: auto;
 }
 
