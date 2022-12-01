@@ -1,18 +1,32 @@
 import Layout from "./components/Layout";
 import { useEffect, useState } from "react";
 import "./App.css";
+import CharacterList from "./components/CharacterList";
+import useStateHooks from "./hooks/useStateHooks";
+
 function App() {
-  const [data, setData] = useState(null);
   const [loadings, setLoadings] = useState(false);
+  const {
+    stored: data,
+    setStored: setData,
+    setLocalStored,
+  } = useStateHooks(null);
+  console.log(data, "data");
   async function getFetch() {
     try {
       const res = await fetch("https://rickandmortyapi.com/api/character");
       console.log("cargo");
       const data = await res.json();
       console.log(data.results);
-      setLoadings(true);
-      setData(data.results);
+      if (!data) return;
+      if (data) {
+        setLoadings(true);
+        setData(data?.results);
+        setLocalStored(data?.results);
+      }
     } catch (error) {
+      setLoadings(false);
+
       console.error(error);
     }
   }
@@ -29,20 +43,9 @@ function App() {
   }
 
   return (
-    <Layout>
+    <Layout footer>
       <section className="grid-container">
-        {data?.map((el) => {
-          return (
-            <>
-              {loadings && (
-                <article key={el.id} className="item">
-                  <h3>{el.name}</h3>
-                  <img src={el.image} />
-                </article>
-              )}
-            </>
-          );
-        })}
+        <CharacterList data={data} loadings={loadings} />
       </section>
     </Layout>
   );
